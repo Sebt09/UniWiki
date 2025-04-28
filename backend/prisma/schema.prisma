@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Universidad {
+  id               Int          @id @default(autoincrement())
+  nombre           String
+  ciudad           String
+  tipoInstitucion  String
+  direccion        String
+  linkSitioWeb     String
+  valorInscripcion Float?
+  descripcion      String?      // Opcional
+  logoUrl          String?      // URL del logo (opcional)
+  programas        Programa[]
+}
+
+model Programa {
+  id                Int          @id @default(autoincrement())
+  nombre            String
+  nivel             String
+  duracion          String
+  modalidad         String
+  costoSemestre     Float?
+  descripcion       String
+  planEstudiosUrl   String?      // PDF opcional
+  tituloOtorgado    String
+  numeroCreditos    Int?         // Opcional
+  perfilProfesional String?      // Opcional
+  sitioWeb          String?      // Opcional
+  universidadId     Int
+  universidad       Universidad  @relation(fields: [universidadId], references: [id])
+}
+
